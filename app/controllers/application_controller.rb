@@ -7,9 +7,9 @@ class ApplicationController < Sinatra::Base
 
   get '/games' do
     #get all the games from the db
-    games = Game.all.order(:title).limit(10)    #sorting by title
+    games = Game.all.order(:title).limit(10)  
 
-    #return a JSON response of all data
+   # return a JSON response with an array of all the game data
     games.to_json
   end
 
@@ -20,9 +20,9 @@ class ApplicationController < Sinatra::Base
     #send a jSON respond of the game data
     game.to_json
     game.to_json(include: :reviews)   #includes reviews 
-    game.to_json(include: {reviews: {include: :user}})    # includes users asscoiated with each review
+    game.to_json(include: {reviews: {include: :user}})    
 
-    #selecting which attributes to be returned in each model
+    
     game.to_json(only: [:id, :title, :genre, :price], include: {reviews: {only: [:comment, :score], include: {user: {only: [:name]}}}})
   end
 
